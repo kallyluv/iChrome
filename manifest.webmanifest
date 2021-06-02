@@ -1,0 +1,10 @@
+{
+  "name": "iDevice Online",
+  "short_name": "iDevice",
+  "description": "Under Development",
+  "icons": [],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#B12A34",
+  "background_color": "#B12A34"
+}

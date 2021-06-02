@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+
+<title>iDevice Online</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  * {
+    --background: #000000e3;
+    --font-colors: 255, 255, 255;
+  }
+  body {
+    font-family: sans-serif;
+    background: var(--background);
+		user-select: none;
+		overflow: hidden;
+  }
+
+  header {
+    width: 100vw;
+    height: 50px;
+    position: fixed;
+    top:0;left:0;
+    background: #000000e7;
+    box-shadow: 0 0 10px black;
+    color: rgba(var(--font-colors), 0.7);
+		text-align: center;
+    line-height: 50px;
+		z-index: 999;
+  }
+
+  header #title {
+    font-size: min(5vw, 20px);
+  }
+
+	#lockScreen, #homeScreen {
+		transition: 0.5s ease all;
+	}
+	
+	#lockScreen {
+		position: absolute;
+		top: 50px;
+		left:0;
+		width: 100vw;
+		height: calc(100vh - 50px);
+	}
+	
+	#homeScreen {
+		transform: scale(0);
+		position: absolute;
+		top: 50px;
+		left: 0;
+		width: 100vw;
+		height: calc(100vh - 55px);
+		white-space: wrap;
+	}
+
+	.keypad {
+		position: fixed;
+		left: 50%;
+    top: calc(50% + 25px);
+    transform: translate(-50%, -50%);
+		transition: 1s ease all;
+	}
+
+	.digits {
+		position: fixed;
+		left: 50%;
+    top: calc(50% - 250px);
+    transform: translate(-50%, -50%);
+		transition: 0.35s ease all;
+	}
+
+	.digit {
+		width: 25px;
+		height: 25px;
+		border: 1px solid rgba(var(--font-colors), 0.7);
+		border-radius: 999px;
+		display: inline-block;
+		white-space: nowrap;
+		transition: 0.15s ease all;
+	}
+
+  .keypad button {
+    width: min(10vw, 100px);
+		height: min(10vw, 100px);
+		background: none;
+    border: 1px solid rgba(var(--font-colors), 0.7);
+    border-radius: 999px;
+    text-align: center;
+		line-height: min(calc(10vw - 30px), 70px);
+		font-size: min(calc(10vw - 30px), 70px);
+		color: rgba(var(--font-colors), 0.7);
+		margin: 5px;
+		cursor: pointer;
+		outline: none;
+		transition: 0.1s ease all;
+  }
+	.keypad button:not(.hide):hover, .keypad button:not(.hide):focus-visible {
+		background: rgba(var(--font-colors), 0.1);
+	}
+	.keypad button:not(.hide):active {
+		background: rgba(var(--font-colors), 0.25);
+	}
+	.keypad .hide {
+		color: #0000;
+		border: 1px solid #0000;
+		cursor: default;
+	}
+	
+	.alert .container {
+				position: fixed;
+				display: inline-block;
+				white-space: pre-wrap;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				padding: 15px;
+				padding-top:0;
+				background: #212121;
+				color: #efefef;
+				border-radius: 6px;
+				z-index: 9999;
+			}
+			.alert .container #title, .container #content {
+				margin-top:15px;
+				margin-bottom: 10px;
+				text-align: center;
+			}
+			.alert .container #content {
+				font-weight:normal;
+			}
+			.alert .cover {
+				position: fixed;
+				background: black;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				opacity: 0.75;
+			}
+			.alert .container button {
+				background: none;
+				color: inherit;
+				border: 1px solid #efefef;
+				outline: none;
+				border-radius: 5px;
+				cursor: pointer;
+				position: absolute;
+				left: 50%;
+				transform: translate(-50%,-30px);
+				padding: 5px;
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+			.alert .container input {
+				box-shadow: inset 0 0 5px black;
+				background: #333333;
+				border: none;
+				border-radius: 6px;
+				position: absolute;
+				left: 50%;
+				transform: translate(-50%, -32px);
+				height: 27px;
+				width: 80%;
+				outline: none;
+				padding:5px;
+				color: inherit;
+			}
+			
+			.app-icon {
+				width: 100px;
+				height: 100px;
+				margin: 25px;
+				border-radius: 7px;
+				float: left;
+				box-shadow: 0 0 7px black;
+				cursor: pointer;
+				transition: 0.5s ease all;
+				border: none;
+				outline: none;
+			}
+			.app-icon:hover, .app-icon:focus-visible {
+				transform: scale(1.05);
+				box-shadow: 0 0 14px black;
+			}
+			.app-icon h4 {
+				color: #efefef;
+				text-align:center;
+				position: relative;
+				top: 50px;
+				transform: translate(0, 100%);
+			}
+			
+			.app-content {
+				transition: 0.5s ease all;
+				transform: scale(0);
+				position: absolute;
+				top: 50px;
+				left: 0;
+				width: 100vw;
+				height: calc(100vh - 50px);
+				background: inherit;
+				opacity: 0;
+				z-index: 1000;
+			}
+			.app-content iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: inherit;
+				border: none;
+				z-index: 1000;
+			}
+			.app-content #closeButton {
+				position: fixed;
+				top: -40px;
+				right: 20px;
+				font-size: 25px;
+				color: red;
+				font-weight: bold;
+				transform: scaleX(1.25);
+				cursor: pointer;
+				transition: 0.5s ease all;
+				width: 25px;
+				height: 25px;
+				z-index: 1000;
+			}
+			.app-content #closeButton:hover {
+				transform: scale(1.075) scaleX(1.225);
+			}
+			
+			.overlay {
+				width: 100vw;
+				height: calc(100vh - 50px);
+				position: fixed;
+				top: 50px;
+				left: 0;
+				background: #000000dd;
+				display: none;
+				pointer-events: none;
+			}
+			.overlay img {
+				width: min(min(20vw, 30vh),200px);
+				height: min(min(20vw, 30vh),200px);
+				position: fixed;
+				left: 50%;
+				top:50%;
+				transform: translate(-50%,-50%);
+				opacity: 1;
+				filter: invert(1);
+			}
+			
+			#lockButton {
+				position: fixed;
+				top: 13px;
+				left: 25px;
+				width: 25px;
+				height: 25px;
+				filter: invert(1);
+				cursor: pointer;
+			}
+			
+
+</style>
+<script>
+	window.onerror = alert;
+</script>
+
+</head>
+<body>
+
+<header>
+	<img id='lockButton' src='https://image.flaticon.com/icons/png/512/3064/3064197.png' ondragstart='return false;' />
+  <span id='title'>iDevice Online</span>
+</header>
+<section id='lockScreen'>
+	<div class='digits'>
+		<div class='digit empty'></div>
+		<div class='digit empty'></div>
+		<div class='digit empty'></div>
+		<div class='digit empty'></div>
+	</div>
+	<div class='keypad'>
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<br />
+		<button>4</button>
+		<button>5</button>
+		<button>6</button>
+		<br />
+		<button>7</button>
+		<button>8</button>
+		<button>9</button>
+		<br />
+		<button class='hide'></button>
+		<button>0</button>
+	</div>
+</section>
+<section id="homeScreen">
+	<button class="app-icon" id='ste'><h4>STE Editor</h4></button>
+	<button class="app-icon" id="steSite"><h4>STE Site</h4></button>
+	<button class="app-icon" id="search"><h4>Search</h4></button>
+</section>
+<section class="app-content"><iframe crossorigin="anonymous"></iframe><div id="closeButton" onclick="closeApp()">X</div></section>
+<div class="overlay"><img src="https://i.imgur.com/o7uqRSg.gif"/></div>
+<script>
+
+	window.defaultAlert = alert;
+	window.onerror = (e, b ,a) => defaultAlert(e + ":" + a);
+
+	function uuid() {
+		var lut = [];
+    for (var i = 0; i < 256; i++) lut[i] = ((i < 16) ? "0" : "") + i.toString(16);
+		var d0 = (Math.random() * 0xffffffff) | 0, d1 = (Math.random() * 0xffffffff) | 0, d2 = (Math.random() * 0xffffffff) | 0, d3 = (Math.random() * 0xffffffff) | 0;
+		return `${lut[d0 & 0xff]}${lut[(d0 >> 8) & 0xff]}${lut[(d0 >> 16) & 0xff]}${lut[(d0 >> 24) & 0xff]}-${lut[d1 & 0xff]}${lut[(d1 >> 8) & 0xff]}-${lut[((d1 >> 16) & 0x0f) | 0x40]}${lut[(d1 >> 24) & 0xff]}-${lut[(d2 & 0x3f) | 0x80]}${lut[(d2 >> 8) & 0xff]}-${lut[(d2 >> 16) & 0xff]}${lut[(d2 >> 24) & 0xff]}${lut[d3 & 0xff]}${lut[(d3 >> 8) & 0xff]}${lut[(d3 >> 16) & 0xff]}${lut[(d3 >> 24) & 0xff]}`;
+	}
+
+	let alertTitles = ['Alert!', "Attention!", "!"];
+	window.alerts = [];
+	
+	window.apps = {
+		ste: {
+			url: "https://offroaders123.github.io/Smart-Text-Editor/resources/app-apple-touch-icon.png",
+			href: "https://offroaders123.github.io/Smart-Text-Editor/"
+		},
+		steSite: {
+			url: "https://offroaders123.github.io/Smart-Text-Editor/resources/app-apple-touch-icon.png",
+			href: "https://xjustjqy.github.io/Smart-Text-Editor-site/"
+		},
+		search: {
+			url: "",
+			href: `https://xjustjqy.github.io/iDevice-Search-Engine/`
+		}
+	};
+
+	alert = function(message) {
+		if(document.querySelectorAll('.alert .container button').length > 0) {
+			window.alerts.push(message);
+			return;
+		}
+		if(message === undefined || message === null || message === "") return;
+		this.alertContainer = document.createElement('section');
+		this.alertContainer.classList.add('alert');
+		this.cover = document.createElement('div');
+		this.cover.classList.add('cover');
+		this.alertContainer.appendChild(this.cover);
+		this.container = document.createElement('div');
+		this.container.classList.add('container');
+		this.title = document.createElement('h1');
+		this.title.id = 'title';
+		this.title.innerHTML = alertTitles[Math.floor(Math.random() * 3)];
+		this.container.appendChild(this.title);
+		this.content = document.createElement('h4');
+		this.content.id = 'content';
+		this.content.textContent = message;
+		this.container.appendChild(this.content);
+		this.button = document.createElement('button');
+		this.button.innerHTML = "Close";
+		this.button.parent = this;
+		this.button.onclick = () => {this.alertContainer.parentNode.removeChild(this.alertContainer); alert(window.alerts[0]); window.alerts.shift();};
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(this.button);
+		this.alertContainer.appendChild(this.container);
+		document.body.appendChild(this.alertContainer);
+	}
+	
+	function Prompt(message) {
+		this.onsubmit = function(value){}
+		this.alertContainer = document.createElement('section');
+		this.alertContainer.classList.add('alert');
+		this.cover = document.createElement('div');
+		this.cover.classList.add('cover');
+		this.alertContainer.appendChild(this.cover);
+		this.container = document.createElement('div');
+		this.container.classList.add('container');
+		this.content = document.createElement('h4');
+		this.content.id = 'content';
+		this.content.textContent = message;
+		this.container.appendChild(this.content);
+		this.input = document.createElement('input');
+		this.input.onkeydown= function(event) {if(!event.returnValue) return;event.preventDefault();if(!((isNaN(parseInt(event.key)) && event.key.toUpperCase() != 'BACKSPACE') || (this.value.length + 1 > 4 && event.key.toUpperCase() != 'BACKSPACE'))){
+				if(event.key.toUpperCase() == 'BACKSPACE') {
+					this.value = this.value.substr(0, this.value.length - 1 > -1 ? this.value.length - 1 : 0);
+				}else{
+					this.value += event.key;
+				}
+			}
+		}
+		this.input.type = 'text';
+		this.button = document.createElement('button');
+		this.button.innerHTML = "Submit";
+		this.button.onclick = () => {this.alertContainer.parentNode.removeChild(this.alertContainer);this.onsubmit(this.input.value);}
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(this.input);
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(document.createElement('br'));
+		this.container.appendChild(this.button);
+		this.alertContainer.appendChild(this.container);
+		document.body.appendChild(this.alertContainer);
+		this.run = () => {
+			return new Prompt(message);
+		}
+		return this;
+	}
+
+	document.querySelectorAll('.keypad button:not(.hide)').forEach((button) => {
+		button.onclick = () => keyPad(parseInt(button.innerHTML));
+	});
+
+	window.onkeydown = (e) => {
+		if(!e.returnValue) return;
+		if (e.ctrlKey && e.key == 'C') {
+			localStorage.setItem('pass', null);
+			alert("password reset");
+			window.location.reload();
+		}
+		if (!isNaN(parseInt(e.key))) {
+			if(lockScreen.style.transform == 'scale(0)') return;
+			document.querySelectorAll('.keypad button').forEach((button) => {
+				if(parseInt(button.innerHTML) == parseInt(e.key)) {
+					button.style.background = 'rgba(var(--font-colors), 0.25)';
+					setTimeout(() => {
+						button.style.background = '';
+					}, 100);
+				}
+			});
+			keyPad(parseInt(e.key));
+		}
+	}
+
+	window.onload = () => {
+		window.passCode = window.localStorage.getItem('pass');
+		if(!window.passCode || window.passCode == 'null') {
+				ask = new Prompt('Welcome to iDevice! Please enter a (four digit) numeric passcode!');
+				ask.onsubmit = (value) => {
+  				var n = parseInt(value);
+  				if(isNaN(n) || !n || n.toString().length < 4) return run();
+					else (window.passCode = value.toString()), (localStorage.setItem('pass', window.passCode));
+				}
+				function run() {
+					submit = ask.onsubmit;
+					ask = ask.run();
+					ask.onsubmit = submit;
+				}
+		}
+		setTimeout(() => {
+		document.querySelectorAll('.app-icon').forEach((app, i) => {
+			app.setAttribute('tabindex', "-1");
+			app.details = details = window.apps[app.id];
+			if(details === undefined) return;
+			if(details.url == "") details.url = "https://i.ibb.co/8D76f0n/Icon-Placeholder.png";
+			app.style.background = 'url('+details.url+')';
+			app.style.backgroundSize = "auto 100%";
+			app.style.backgroundPosition = "center";
+			app.style.backgroundRepeat = "no-repeat";
+			app.onclick = () => openApp(app.details.href);
+		});
+		}, 500);
+	}
+
+	let keysEntered = [];
+
+	function keyPad(which) {
+		if(!window.passCode) return;
+		keysEntered.push(which);
+		if (keysEntered.length <= 4) document.querySelector(`.digits .digit:nth-child(${keysEntered.length})`).style.background = 'white';
+			if(keysEntered.length == 4) {
+			if(keysEntered.join('') === window.passCode) {
+				unlock();
+			}
+			setTimeout(() => {
+				document.querySelectorAll('.digit').forEach((digit) => digit.style.background = '');
+				keysEntered = [];
+			}, 150);
+		}
+	}
+
+	function unlock() {
+		lockScreen.style.transform = 'scale(0)';
+		homeScreen.style.transform = 'scale(1)';
+		homeScreen.focus();
+		lockButton.src = "https://i.ibb.co/nCJ62nN/image.png";
+		document.querySelectorAll('.keypad button').forEach((button) => {
+			button.setAttribute('tabindex','-1');
+		});
+		document.querySelectorAll('.app-icon').forEach((app, i) => {
+			app.removeAttribute('tabindex');
+		});
+		lockButton.onclick = ()=>{
+			closeApp();
+			lockScreen.style.transform = 'scale(1)';
+			lockScreen.focus();
+			homeScreen.style.transform = 'scale(0)';
+			lockButton.src = "https://image.flaticon.com/icons/png/512/3064/3064197.png";
+			document.querySelectorAll('.keypad button').forEach((button) => {
+				button.removeAttribute('tabindex');
+			});
+			document.querySelectorAll('.app-icon').forEach((app, i) => {
+				app.setAttribute('tabindex','-1');
+			});
+		}
+	}
+	
+	function openApp(url) {
+		content = document.querySelector('.app-content');
+		content.querySelector('iframe').onclick = (e) => {
+			alert(e.target);
+			if(e.target.tagName.toUpperCase() == 'A') e.preventDefault();
+		}
+		content.querySelector('iframe').onload = () => {
+			homeScreen.style.transform = 'scale(0)';
+			content.style.transform = 'scale(1)';
+			content.style.opacity = 1;
+			setTimeout(() => document.querySelector('.overlay').style.display = 'none', 125);
+		}
+		document.querySelector('.overlay').style.display = 'block';
+		content.querySelector('iframe').src = url;
+		content.querySelector('iframe').focus();
+	}
+	
+	function closeApp() {
+		homeScreen.style.transform = 'scale(1)';
+		content = document.querySelector('.app-content');
+		content.querySelector('iframe').onload = () => {}
+		content.style.transform = 'scale(1.5)';
+		content.style.opacity = 0;
+		setTimeout(() => {
+			content.style.transform = 'scale(0)';
+			content.querySelector('iframe').src = "";
+		}, 450);
+	}
+
+</script>
+
+</body>
+
+</html>
