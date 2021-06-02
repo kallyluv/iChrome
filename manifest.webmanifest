@@ -2,7 +2,13 @@
   "name": "iDevice Online",
   "short_name": "iDevice",
   "description": "Under Development",
-  "icons": [],
+  "icons": [
+    {
+      "src": "resources/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
   "start_url": "/index.html",
   "display": "standalone",
   "theme_color": "#B12A34",
