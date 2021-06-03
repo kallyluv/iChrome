@@ -1,23 +1,26 @@
-importScripts('/cache-polyfill.js');
-
-
-self.addEventListener('install', function(e) {
- e.waitUntil(
-   caches.open('airhorner').then(function(cache) {
-     return cache.addAll([
-       '/',
-       '/index.html',
-       '/manifest.webmanifest',
-       '/resources/icon-256.png'
-     ]);
-   })
- );
+self.addEventListener("activate",event => {
+  event.waitUntil(caches.keys().then(versions => Promise.all(versions.map(cache => {
+    if (cache != 1.1) return caches.delete(cache);
+  }))));
+  event.waitUntil(clients.claim());
+  postMessageAllClients({ action: "service-worker-activated" });
 });
-
-self.addEventListener('fetch', function(event) {
- event.respondWith(
-   caches.match(event.request).then(function(response) {
-     return response || fetch(event.request);
-   })
- );
+self.addEventListener("fetch",event => {
+  event.respondWith(caches.match(event.request).then(response => {
+    return response || fetch(event.request).then(async response => {
+      caches.open(1.1).then(cache => cache.put(event.request,response));
+      return response.clone();
+    });
+  }));
 });
+self.addEventListener("message",event => {
+  if (event.data.action == "clear-site-caches"){
+    caches.keys().then(versions => {
+      Promise.all(versions.map(cache => caches.delete(cache)));
+      postMessageAllClients({ action: "clear-site-caches-complete" });
+    });
+  }
+});
+function postMessageAllClients(data){
+  clients.matchAll().then(clients => clients.forEach(client => client.postMessage(data)));
+}
