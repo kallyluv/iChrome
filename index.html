@@ -343,7 +343,7 @@
 		},
 		search: {
 			url: "",
-			href: `https://xjustjqy.github.io/iDevice-Search-Engine/`
+			href: `https://xjustjqy.github.io/iChrome-Search-Engine/`
 		}
 	};
 
@@ -447,7 +447,7 @@
 	window.onload = () => {
 		window.passCode = window.localStorage.getItem('pass');
 		if(!window.passCode || window.passCode == 'null') {
-				ask = new Prompt('Welcome to iDevice! Please enter a (four digit) numeric passcode!');
+				ask = new Prompt('Welcome to iChrome! Please enter a (four digit) numeric passcode!');
 				ask.onsubmit = (value) => {
   				var n = parseInt(value);
   				if(isNaN(n) || !n || n.toString().length < 4) return run();
