@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-US">
 
@@ -19,6 +20,7 @@
   * {
     --background: #000000e3;
     --font-colors: 255, 255, 255;
+		--keypad-top: calc(30%);
   }
   body {
     font-family: sans-serif;
@@ -76,8 +78,8 @@
 	.digits {
 		position: fixed;
 		left: 50%;
-    top: calc(50% + 40px);
-    transform: translate(-50%, -500%);
+    top: calc(var(--keypad-top));
+    transform: translate(-50%, -100%);
 		transition: 0.35s ease all;
 	}
 
