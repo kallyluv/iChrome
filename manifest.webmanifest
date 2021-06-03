@@ -1,6 +1,6 @@
 {
-  "name": "iDevice Online",
-  "short_name": "iDevice",
+  "name": "iChrome",
+  "short_name": "iChrome",
   "description": "Under Development",
   "icons": [
     {
@@ -9,7 +9,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/iDevice-Online/",
+  "start_url": "/iChrome/",
   "display": "standalone",
   "theme_color": "#000000e7",
   "background_color": "#000000e7"
