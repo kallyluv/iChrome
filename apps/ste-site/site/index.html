@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Home - Smart Text Editor</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="author" content="Brandon Bennett, Jacob McGinley" />
+    <meta name="description" content="The text editor that requires only a browser and a keyboard!" />
+    <meta name="google-site-verification" content="_LrfHy7pIualH1TolkQ5b3Po0dtjYrx-QQsiXelwx20" />
+    <meta property="og:title" content="Smart Text Editor" />
+    <meta property="og:description" content="The code ready text editor that requires only a browser and a keyboard!" />
+    <meta property="og:image" content="resources/share-1200.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta id="theme_color" name="theme-color" content="#1e1e1e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="STE" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" type="image/svg+xml" href="../resources/icon.svg" />
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="../resources/icon-16.png" />
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="../resources/icon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../resources/app-apple-touch-icon.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-iphone5-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-iphone5-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-iphone6-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-iphone6-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="../resources/startup-iphoneplus-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="../resources/startup-iphoneplus-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="../resources/startup-iphonex-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="../resources/startup-iphonex-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-iphonexr-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-iphonexr-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="../resources/startup-iphonexsmax-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="../resources/startup-iphonexsmax-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-ipad-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-ipad-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-ipadpro1-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-ipadpro1-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-ipadpro3-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-ipadpro3-portrait.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="../resources/startup-ipadpro2-landscape.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="../resources/startup-ipadpro2-portrait.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cousine&family=Rubik&display=swap" />
+		<link rel="stylesheet" href="main-styles.css" />
+		<script src="loader.js"></script>
+		
+  </head>
+
+  <body class="code horizontal" data-view="code" data-orientation="horizontal">
+    
+
+    <header id="header">
+      <section class="app-region"></section>
+      <section class="app-icon"><img src="../resources/icon.svg" />&nbsp;&nbsp;Smart Text Editor</section>
+			<button class="active">Home</button>
+			<button>About</button>
+			<button>Plugins</button>
+    </header>
+    <main id="home">
+			<div id="head-img">
+			<span>Smart Text Editor</span>
+			</div>
+			<section right>
+        <div class="card side-text-ready">
+          <span id="title"><a href="javascript:void()">Smart Text Editor (STE)</a></span><br />
+          <img src="../resources/share-1280.png" />
+          <br />
+          <span id="content">STE is one of very few advanced web-based text editors! STE runs on Google Chrome APIs and may experience bugs on other web-platforms. To use STE, click <a href="https://offroaders123.github.io/Smart-Text-Editor">here</a> to go to the online editor. From there you can install it to your desktop as a Chrome web-app, or continue to use it online! We are constantly making changes and updating to use the latest APIs available, some of these are located in <a href="chrome://flags">Chrome Flags</a>.</span>
+        </div>
+        <div class="side-text">The code ready text editor that requires only a browser and a keyboard!</div>
+      </section>
+
+    </main>
+
+		<main id="about" hide>
+		
+			<section right>
+			
+        <div class="card side-text-ready">
+          <span id="title"><a href="javascript:void()">Smart Text Editor (STE)</a></span><br />
+
+          <img src="../resources/share-1280.png" /><br />
+
+          <span id="content">STE is one of very few advanced web-based text editors! STE runs on Google Chrome APIs and may experience bugs on other web-platforms. To use STE, click <a href="https://offroaders123.github.io/Smart-Text-Editor">here</a> to go to the online editor. From there you can install it to your desktop as a Chrome web-app, or continue to use it online! We are constantly making changes and updating to use the latest APIs available, some of these are located in <a href="chrome://flags">Chrome Flags</a>.</span>
+        </div>
+
+        <div class="side-text">The code ready text editor that requires only a browser and a keyboard!</div>
+
+      </section>
+
+    </main>
+
+		<main id="plugins" hide>
+			
+			<div id="head-img">
+			<span>Community Plugins for STE</span>
+			</div>
+			
+			<section>
+				
+				<div class="card">
+					<span id="title"><a href="javascript:void()">Coming Soon...</a></span><br />
+					
+					<img src="../resources/plugin-icon.png" /><br />
+					
+					<span id="content">Community plugins for STE coming soon!</span>
+				</div>
+				
+			</section>
+			
+		</main>
+
+  </body>
+</html>
