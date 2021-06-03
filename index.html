@@ -4,7 +4,7 @@
 
 <head>
 
-<title>iChrome</title>
+<title>iDevice Online</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <link rel="icon" type="image/png" sizes="16x16 32x32" href="./resources/icon-256.png" />
@@ -273,6 +273,11 @@
 </style>
 <script>
 	window.onerror = alert;
+	if('serviceWorker' in navigator) {
+  	navigator.serviceWorker
+           .register('./serviceworker.js')
+           .then(function() { console.log("Service Worker Registered"); });
+	}
 </script>
 
 </head>
@@ -280,7 +285,7 @@
 
 <header>
 	<img id='lockButton' src='https://image.flaticon.com/icons/png/512/3064/3064197.png' ondragstart='return false;' />
-  <span id='title'>iChrome</span>
+  <span id='title'>iDevice Online</span>
 </header>
 <section id='lockScreen'>
 	<div class='digits'>
