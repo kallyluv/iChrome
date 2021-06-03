@@ -5,9 +5,7 @@
 
 <title>iDevice Online</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<base href="https://xjustjqy.github.io/iDevice-Online/">
-<link rel="manifest" href="manifest.webmanifest">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 <style>
   *, *::before, *::after {
@@ -34,7 +32,6 @@
     color: rgba(var(--font-colors), 0.7);
 		text-align: center;
     line-height: 50px;
-		z-index: 999;
   }
 
   header #title {
@@ -66,7 +63,7 @@
 	.keypad {
 		position: fixed;
 		left: 50%;
-    top: calc(50% + 25px);
+    top: calc(50% + 40px);
     transform: translate(-50%, -50%);
 		transition: 1s ease all;
 	}
@@ -74,8 +71,8 @@
 	.digits {
 		position: fixed;
 		left: 50%;
-    top: calc(50% - 250px);
-    transform: translate(-50%, -50%);
+    top: calc(50% + 40px);
+    transform: translate(-50%, -500%);
 		transition: 0.35s ease all;
 	}
 
@@ -90,14 +87,14 @@
 	}
 
   .keypad button {
-    width: min(10vw, 100px);
-		height: min(10vw, 100px);
+ --button-height: calc(min(min(10vw,10vh), 100px));
+    width: var(--button-height);
+		height: var(--button-height);
 		background: none;
     border: 1px solid rgba(var(--font-colors), 0.7);
     border-radius: 999px;
-    text-align: center;
-		line-height: min(calc(10vw - 30px), 70px);
-		font-size: min(calc(10vw - 30px), 70px);
+		line-height: var(--button-height);
+		font-size: calc(var(--button-height) / 3);
 		color: rgba(var(--font-colors), 0.7);
 		margin: 5px;
 		cursor: pointer;
@@ -128,7 +125,6 @@
 				background: #212121;
 				color: #efefef;
 				border-radius: 6px;
-				z-index: 9999;
 			}
 			.alert .container #title, .container #content {
 				margin-top:15px;
@@ -210,7 +206,6 @@
 				height: calc(100vh - 50px);
 				background: inherit;
 				opacity: 0;
-				z-index: 1000;
 			}
 			.app-content iframe {
 				position: absolute;
@@ -220,10 +215,9 @@
 				height: 100%;
 				background: inherit;
 				border: none;
-				z-index: 1000;
 			}
 			.app-content #closeButton {
-				position: fixed;
+				position: absolute;
 				top: -40px;
 				right: 20px;
 				font-size: 25px;
@@ -232,9 +226,6 @@
 				transform: scaleX(1.25);
 				cursor: pointer;
 				transition: 0.5s ease all;
-				width: 25px;
-				height: 25px;
-				z-index: 1000;
 			}
 			.app-content #closeButton:hover {
 				transform: scale(1.075) scaleX(1.225);
@@ -313,7 +304,7 @@
 	<button class="app-icon" id="steSite"><h4>STE Site</h4></button>
 	<button class="app-icon" id="search"><h4>Search</h4></button>
 </section>
-<section class="app-content"><iframe crossorigin="anonymous"></iframe><div id="closeButton" onclick="closeApp()">X</div></section>
+<div class="app-content"><iframe crossorigin="anonymous"></iframe><div id="closeButton" onclick="closeApp()">X</div></div>
 <div class="overlay"><img src="https://i.imgur.com/o7uqRSg.gif"/></div>
 <script>
 
@@ -462,11 +453,8 @@
 			app.setAttribute('tabindex', "-1");
 			app.details = details = window.apps[app.id];
 			if(details === undefined) return;
-			if(details.url == "") details.url = "https://i.ibb.co/8D76f0n/Icon-Placeholder.png";
 			app.style.background = 'url('+details.url+')';
-			app.style.backgroundSize = "auto 100%";
-			app.style.backgroundPosition = "center";
-			app.style.backgroundRepeat = "no-repeat";
+			app.style.backgroundSize = "contain";
 			app.onclick = () => openApp(app.details.href);
 		});
 		}, 500);
