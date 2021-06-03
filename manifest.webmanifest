@@ -11,6 +11,6 @@
   ],
   "start_url": "/iDevice-Online/",
   "display": "standalone",
-  "theme_color": "#B12A34",
-  "background_color": "#B12A34"
+  "theme_color": "#000000e7",
+  "background_color": "#000000e7"
 }
