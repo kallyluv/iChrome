@@ -16,16 +16,14 @@
   *, *::before, *::after {
     box-sizing: border-box;
   }
-  * {
-    --background: #000000e3;
-    --font-colors: 255, 255, 255;
-		--keypad-top: calc(27%);
-  }
   body {
     font-family: sans-serif;
     background: var(--background);
 		user-select: none;
 		overflow: hidden;
+		--background: #000000e3;
+    --font-colors: 255, 255, 255;
+		--keypad-top: calc(27%);
   }
 
   header {
@@ -33,7 +31,8 @@
     height: 50px;
     position: fixed;
     top:0;left:0;
-    background: #000000e7;
+    background: var(--background);
+		filter: brightness(0.8);
     box-shadow: 0 0 10px black;
     color: rgba(var(--font-colors), 0.7);
 		text-align: center;
@@ -195,7 +194,7 @@
 				box-shadow: 0 0 14px black;
 			}
 			.app-icon h4 {
-				color: #efefef;
+				color: rgba(var(--font-colors), 0.7);
 				text-align:center;
 				position: relative;
 				top: 50px;
@@ -242,7 +241,8 @@
 				position: fixed;
 				top: 50px;
 				left: 0;
-				background: #000000dd;
+				background: var(--background);
+				opacity: 0.75;
 				display: none;
 				pointer-events: none;
 			}
@@ -310,6 +310,7 @@
 	</div>
 </section>
 <section id="homeScreen">
+	<button class="app-icon" id="settings"><h4>Settings</h4></button>
 	<button class="app-icon" id='ste'><h4>STE Editor</h4></button>
 	<button class="app-icon" id="steSite"><h4>STE Site</h4></button>
 	<button class="app-icon" id="search"><h4>Search</h4></button>
@@ -318,6 +319,8 @@
 <div class="overlay"><img src="https://i.imgur.com/o7uqRSg.gif"/></div>
 <script>
 
+	window.theme = parseInt(localStorage.getItem('theme'));
+	if(!window.theme) (window.them = 0),(localStorage.setItem('theme', 0))
 	window.defaultAlert = alert;
 	window.onerror = (e, b ,a) => defaultAlert(e + ":" + a);
 
@@ -343,6 +346,11 @@
 		search: {
 			url: "",
 			href: `./404/`
+		},
+		settings: {
+			url: "./resources/settings.png",
+			href: "about:blank",
+			content: "%3C!DOCTYPE%20html%3E%0A%3Chtml%20lang=%22en-US%22%3E%0A%09%3Chead%3E%0A%09%09%3Ctitle%3E%3C/title%3E%0A%09%09%3Cmeta%20charset=%22UTF-8%22%20/%3E%0A%09%09%3Cmeta%20name=%22viewport%22%20content=%22width=device-width,%20initial-scale=1%22%20/%3E%0A%0A%09%09%3Cstyle%3E%0A%09%09%09*,%0A%09%09%09*::before,%0A%09%09%09*::after%20%7B%0A%09%09%09%09box-sizing:%20border-box;%0A%09%09%09%09user-select:%20none;%0A%09%09%09%7D%0A%09%09%09body%20%7B%0A%09%09%09%09--radio-background:%20#efefef;%0A%09%09%09%09font-family:%20sans-serif;%0A%09%09%09%09background:%20#1C1C1C;%0A%09%09%09%09color:%20#efefef;%0A%09%09%09%09transition:%200.5s%20ease%20all;%0A%09%09%09%7D%0A%09%09%09/*%20%0A%20*%20Hide%20the%20inputs.%20%0A%20*/%0A%0Ainput%20%7B%0A%20%20display:%20none;%0A%7D%0A%0A%0A/*%0A%20*%20Then,%20style%20the%20label%20so%20it%20looks%20like%20however%20you%20want.%0A%20*%20Here's%20a%20quick%20rundown%20of%20how%20I%20did%20it%20here:%0A%20*/%0A%0A%0A/*%0A%20*%20Some%20basic%20positioning%20styles,%20and%20we%20give%20it%20the%20pointer%20cursor%20to%20show%20%0A%20*%20that%20it's%20clickable%0A%20*/%0A%0Alabel%20%7B%0A%20%20display:%20inline-block;%0A%20%20padding:%205px%2010px;%0A%20%20cursor:%20pointer;%0A%7D%0A%0A%0A/*%0A%20*%20With%20how%20I%20decided%20to%20build%20this,%20the%20position:%20relative%20is%20super%20important.%0A%20*%20We're%20going%20to%20position%20a%20pseudo%20element%20within%20this%20element(As%20it%20is%20the%20containing%20box)%0A%20*/%0A%0Alabel%20span%20%7B%0A%20%20position:%20relative;%0A%20%20line-height:%2022px;%0A%7D%0A%0A%0A/*%20%0A%20*%20Because%20we're%20using%20pseudo%20elements,%20a%20content%20property%20is%20required%20to%20make%20them%20appear.%0A%20*/%0A%0Alabel%20span:before,%0Alabel%20span:after%20%7B%0A%20%20content:%20'';%0A%7D%0A%0A%0A/*%0A%20*%20We%20are%20using%20the%20:before%20peudo%20elemnt%20as%20the%20actual%20button,%0A%20*%20then%20we'll%20position%20the%20:after%20over%20it.%20You%20could%20also%20use%20a%20background-image,%0A%20*%20font-icon,%20or%20really%20anything%20if%20you%20want%20different%20styles.%0A%20*%20For%20the%20specific%20style%20we're%20going%20for,%20this%20approach%20is%20simply%20the%20easiest,%20but%0A%20*%20once%20you%20understand%20the%20concept%20you%20can%20really%20do%20it%20however%20you%20like.%0A%20*/%0A%0Alabel%20span:before%20%7B%0A%20%20border:%201px%20solid%20var(--radio-background);%0A%20%20width:%2022px;%0A%20%20height:%2022px;%0A%20%20margin-right:%2010px;%0A%20%20display:%20inline-block;%0A%20%20vertical-align:%20top;%0A%7D%0A%0Alabel%20span:after%20%7B%0A%20%20background:%20var(--radio-background);%0A%20%20width:%2014px;%0A%20%20height:%2014px;%0A%20%20position:%20absolute;%0A%09top:%203.5px;%0A%09left:%204px;%0A%20%20transition:%20300ms;%0A%20%20opacity:%200;%0A%7D%0A%0A/*%0A%20*%20This%20is%20the%20most%20important%20part%20of%20this%20whole%20file,%20if%20you%20understand%20what's%20happening%20here%0A%20*%20you%20can%20really%20make%20this%20in%20so%20many%20different%20ways.%0A%20*%20%0A%20*%20We%20start%20by%20selecting%20the%20input%20inside%20of%20the%20label,%20with%20%22label%20input%22.%20From%20there%20we%20use%20the%20%0A%20*%20%22:checked%22%20selector%20to%20*only*%20select%20the%20input%20when%20it%20is%20checked.%20We%20then%20use%20the%20immediate%20sibling%20%0A%20*%20selector(+)%20to%20select%20the%20span,%20and%20then%20it's%20pseudo%20element%20:after(What%20we%20are%20using%20to%20mark%20the%20button)%0A%20*%20Because%20we%20already%20styled%20the%20:after,%20all%20we%20have%20to%20do%20is%20set%20the%20opacity%20to%201,%20making%20it%20fade%20in.%0A%20*/%0Alabel%20input:checked+span:after%20%7B%0A%20%20opacity:%201;%0A%7D%0A%0A%0A/*%20%0A%20*%20A%20little%20styling%20for%20the%20demo%20%0A%20*/%0A%09%09%3C/style%3E%0A%09%3C/head%3E%0A%0A%09%3Cbody%3E%0A%09%0A%09%09%3Ccenter%3E%3Ch1%3ESettings%3C/h1%3E%3C/center%3E%3Chr%20/%3E%0A%09%09%3Ch2%20style=%22white-space:%20pre;%22%3E&nbsp;&nbsp;Theme%3C/h2%3E%0A%09%09%3Clabel%3E%0A%20%20%09%09%3Cinput%20type=%22radio%22%20id=%22dark%22%20name=%22radio%22%20onclick=%22applyTheme(0)%22%3E%0A%20%20%09%09%3Cspan%3EDark%20Mode%3C/span%3E%0A%09%09%3C/label%3E%3Cbr%20/%3E%0A%09%09%3Clabel%3E%0A%20%20%09%09%3Cinput%20type=%22radio%22%20id=%22light%22%20name=%22radio%22%20onclick=%22applyTheme(1)%22%3E%0A%20%20%09%09%3Cspan%3ELight%20Mode%3C/span%3E%0A%09%09%3C/label%3E%0A%09%09%0A%09%0A%09%09%3Cscript%3E%0A%09%09%09window.onload%20=%20()%20=%3E%20%7B%0A%09%09%09%09if(document.theme%20==%200)%20%7B%0A%09%09%09%09%09dark.setAttribute('checked','');%0A%09%09%09%09%09applyTheme(0);%0A%09%09%09%09%7Delse%7B%0A%09%09%09%09%09light.setAttribute('checked','');%0A%09%09%09%09%09applyTheme(1);%0A%09%09%09%09%7D%0A%09%09%09%7D%0A%09%09%0A%09%09%09function%20applyTheme(which)%20%7B%0A%09%09%09%09if(which%20==%201)%20%7B%0A%09%09%09%09%09document.body.style.background%20=%20%22#efefef%22;%0A%09%09%09%09%09document.body.style.color%20=%20%22#1C1C1C%22;%0A%09%09%09%09%09document.body.style.setProperty(%22--radio-background%22,%20%22#1C1C1C%22);%0A%09%09%09%09%09if((window.parent%20==%20window.top%20?%20window.parent%20:%20window.top)%20!=%20window)%20(window.parent%20==%20window.top%20?%20window.parent%20:%20window.top).applyTheme(which);%0A%09%09%09%09%7Delse%20if(which%20==%200)%7B%0A%09%09%09%09%09document.body.style.background%20=%20%22#1C1C1C%22;%0A%09%09%09%09%09document.body.style.color%20=%20%22#efefef%22;%0A%09%09%09%09%09document.body.style.setProperty(%22--radio-background%22,%20%22#efefef%22);%0A%09%09%09%09%09if((window.parent%20==%20window.top%20?%20window.parent%20:%20window.top)%20!=%20window)%20(window.parent%20==%20window.top%20?%20window.parent%20:%20window.top).applyTheme(which);%0A%09%09%09%09%7D%0A%09%09%09%7D%0A%09%09%3C/script%3E%0A%09%3C/body%3E%0A%3C/html%3E%0A"
 		}
 	};
 
@@ -443,7 +451,10 @@
 		}
 	}
 
-	window.onload = () => {
+	window.onload = async () => {
+		navigator.serviceWorker.onload = () => {
+			navigator.serviceWorker.controller.postMessage({ action: "clear-site-caches" });	
+		}
 		window.passCode = window.localStorage.getItem('pass');
 		if(!window.passCode || window.passCode == 'null') {
 				ask = new Prompt('Welcome to iChrome! Please enter a (four digit) numeric passcode!');
@@ -465,9 +476,10 @@
 			if(details === undefined) return;
 			app.style.background = 'url('+details.url+')';
 			app.style.backgroundSize = "contain";
-			app.onclick = () => openApp(app.details.href);
+			app.onclick = () => openApp(app.details.href, app.details.content);
 		});
 		}, 500);
+		applyTheme(window.theme);
 	}
 
 	let keysEntered = [];
@@ -475,7 +487,7 @@
 	function keyPad(which) {
 		if(!window.passCode) return;
 		keysEntered.push(which);
-		if (keysEntered.length <= 4) document.querySelector(`.digits .digit:nth-child(${keysEntered.length})`).style.background = 'white';
+		if (keysEntered.length <= 4) document.querySelector(`.digits .digit:nth-child(${keysEntered.length})`).style.background = "rgba(" + getComputedStyle(document.body).getPropertyValue('--font-colors') + ", 1)";
 			if(keysEntered.length == 4) {
 			if(keysEntered.join('') === window.passCode) {
 				unlock();
@@ -513,7 +525,7 @@
 		}
 	}
 	
-	function openApp(url) {
+	function openApp(url, frameContent) {
 		content = document.querySelector('.app-content');
 		content.querySelector('iframe').onclick = (e) => {
 			alert(e.target);
@@ -528,6 +540,12 @@
 		document.querySelector('.overlay').style.display = 'block';
 		content.querySelector('iframe').src = url;
 		content.querySelector('iframe').focus();
+		if(url == "about:blank" && !!content) {
+			content.querySelector('iframe').contentWindow.document.open();
+			content.querySelector('iframe').contentWindow.document.write(decodeURI(frameContent));
+			content.querySelector('iframe').contentWindow.document.theme = window.theme;
+			content.querySelector('iframe').contentWindow.document.close();
+		}
 	}
 	
 	function closeApp() {
@@ -540,6 +558,20 @@
 			content.style.transform = 'scale(0)';
 			content.querySelector('iframe').src = "";
 		}, 450);
+	}
+	
+	function applyTheme(which) {
+		window.theme = which;
+		localStorage.setItem('theme', which);
+		if(which == 1) {
+			document.body.style.setProperty('--background', "#efefef");
+			document.body.style.setProperty('--font-colors', "0, 0, 0");
+			document.querySelector('.overlay img').style.filter = lockButton.style.filter = "none";
+		}else{
+			document.body.style.setProperty('--background', "#000000e3");
+			document.body.style.setProperty('--font-colors', "255, 255, 255");
+			document.querySelector('.overlay img').style.filter = lockButton.style.filter = "invert(1)";
+		}
 	}
 
 </script>
