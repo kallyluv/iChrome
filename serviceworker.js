@@ -1,4 +1,4 @@
-version = 1.5;
+version = 2.0;
 self.addEventListener("activate",event => {
   event.waitUntil(caches.keys().then(versions => Promise.all(versions.map(cache => {
     if (cache != version) return caches.delete(cache);
